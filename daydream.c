@@ -8,6 +8,7 @@
 
 //参照；文字列入力の２つの方法。配列、ポインタ
 //scanfの引数に文字列ポインタを指定してはいけない理由　https://meideru.com/archives/1062#scanf
+int	ft_strncmp(char *s1, char *s2, size_t n);
 int	main()
 {
 	char	s[10000];
@@ -30,31 +31,33 @@ int	main()
 	printf("%s\n",s);
 	len = strlen(s);
 	for (i = 0; i < len;){
+		// printf("---%d---\n",i);
 		if (s[i] == 'd'){
-			if(strncmp(&s[i],&src[0],5)){
-				i+=5;
-			}
-			else if (strncmp(&s[i],&src[1],7)){
+			if (strncmp(&s[i],&src[1],7)){
+				printf("-dreamerとの差%d\n",strncmp(&s[i],&src[1],7));
+				printf("-dreamとの差%d\n",strncmp(&s[i],&src[0],5));
+				printf("dreamerに入っている\n");
 				i+=7;
 			}
-			else
-				break;
+			else if(!strncmp(&s[i],&src[0],5)){
+				printf("dreamに入っている\n");
+				i+=5;
+			}
 		}
 		else if (s[i] == 'e'){
 			printf("elseifには入っている\n");
-			if (strncmp(&s[i],&src[2],5)){
+			if (!ft_strncmp(&s[i],&src[3],6)){
+				printf("eraserに入っている 比較したのは[%c%c%c%c%c]\n",s[i],s[i+1],s[i+2],s[i+3],s[i+4]);
+				i+=6;
+			}
+			else if (!ft_strncmp(&s[i],&src[2],5)){
 				i+=5;
 				printf("eraseに入っている\n");
 			}
-			else if (strncmp(&s[i],&src[3],6)){
-				printf("eraserに入っている\n");
-				i+=6;
-			}
-			else
-				break;
 		}
 	}
-	if (len == i){
+	printf("---%d----\n",i);
+	if (len == i-1){
 		printf("YES\n");
 		return (0);
 	}
@@ -64,4 +67,20 @@ int	main()
 	}
 	return(0);
 
+}
+
+int	ft_strncmp(char *s1, char *s2, size_t n)//ポインタを変化させないstrcmpを実装。
+{
+	size_t	i,j,k;
+	int		ans;
+	i = 0;
+	ans = 0;
+	while (i < n && (s1[i] != 0 || *s2 != 0))
+	{
+		ans = s1[i] - s2[i];//
+		if (s1[i] != s2[i] || s1[i] == '\0' || s2[i] == '\0')
+			return (ans);
+		i++;
+	}
+	return (0);
 }
